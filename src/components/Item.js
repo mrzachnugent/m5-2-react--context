@@ -12,7 +12,7 @@ const Item = ({
   const ref = React.useRef(null);
 
   React.useEffect(() => {
-    if (index === 0) {
+    if (!index) {
       ref.current.focus();
     }
   }, [index]);

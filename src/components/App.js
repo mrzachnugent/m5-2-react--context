@@ -9,22 +9,11 @@ import useInterval from "../hooks/use-interval.hook";
 
 import { GameContext } from "./GameContext";
 
-const CookieCountContext = React.createContext(null);
-const PurchasesCountContext = React.createContext(null);
-
-export const useCookieCount = () => {
-  return React.useContext(CookieCountContext);
-};
-export const usePurchasesCount = () => {
-  return React.useContext(PurchasesCountContext);
-};
-
 function App(props) {
   const {
     numCookies,
     setNumCookies,
-    purchasedItems,
-    setPurchasedItems,
+
     cookiesPerSecond,
   } = useContext(GameContext);
   useInterval(() => {
@@ -44,25 +33,20 @@ function App(props) {
       const secondsDiff = (timeNow.getTime() - lastSession.getTime()) / 1000;
       setNumCookies(numCookies + Math.floor(secondsDiff * cookiesPerSecond));
     }
+    // eslint-disable-next-line
   }, []);
 
   return (
     <>
-      <CookieCountContext.Provider value={{ numCookies, setNumCookies }}>
-        <PurchasesCountContext.Provider
-          value={{ purchasedItems, setPurchasedItems }}
-        >
-          <GlobalStyles />
-          <Router>
-            <Route exact path="/">
-              <Home />
-            </Route>
-            <Route path="/game">
-              <Game cookiesPerSecond={cookiesPerSecond} />
-            </Route>
-          </Router>
-        </PurchasesCountContext.Provider>
-      </CookieCountContext.Provider>
+      <GlobalStyles />
+      <Router>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route path="/game">
+          <Game cookiesPerSecond={cookiesPerSecond} />
+        </Route>
+      </Router>
     </>
   );
 }
